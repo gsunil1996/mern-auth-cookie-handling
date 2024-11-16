@@ -34,7 +34,9 @@ export const loginAction = createAsyncThunk(
   "auth/loginAction",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.post(`${baseUrl}/api/auth/login`, payload);
+      const response = await axios.post(`${baseUrl}/api/auth/login`, payload, {
+        withCredentials: true, // Include cookies in the request
+      });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(handleError(error));
@@ -46,7 +48,13 @@ export const logoutAction = createAsyncThunk(
   "auth/logoutAction",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.post(`${baseUrl}/api/auth/logout`, {});
+      const response = await axios.post(
+        `${baseUrl}/api/auth/logout`,
+        {},
+        {
+          withCredentials: true, // Include cookies in the request
+        }
+      );
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(handleError(error));
@@ -58,7 +66,9 @@ export const validateToken = createAsyncThunk(
   "auth/validateToken",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(`${baseUrl}/api/users/me`);
+      const response = await axios.get(`${baseUrl}/api/users/me`, {
+        withCredentials: true, // Include cookies in the request
+      });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(handleError(error));

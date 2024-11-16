@@ -14,7 +14,14 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 // Middleware setup
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(
+  cors({
+    origin: "http://localhost:5173", //later we are gonna setup our client url.
+    credentials: true, // setit to true as we are using cookie it only works when it is true
+    optionsSuccessStatus: 200, //for old browers support like internet explorer
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+); // // Enable Cross-Origin Resource Sharing
 app.use(cookieParser()); // Parse cookies from requests
 app.use(express.json()); // Parse incoming JSON data (important for POST/PUT requests)
 
