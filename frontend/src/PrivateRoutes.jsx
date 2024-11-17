@@ -10,12 +10,12 @@ const PrivateRoutes = () => {
     isAuthenticated,
     validateTokenIsLoading,
     validateTokenIsError,
+    validateTokenIsSuccess,
   } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Only dispatch validateToken if not authenticated and it's not already loading
     if (!isAuthenticated && !validateTokenIsLoading) {
       dispatch(validateToken());
     }
@@ -27,15 +27,14 @@ const PrivateRoutes = () => {
         <LinearProgress />
       </Box>
     );
-  }
-
-  if (validateTokenIsError || !isAuthenticated) {
-    // If there's an error or user is not authenticated, redirect to login
+  } else if (validateTokenIsError) {
     return <Navigate to="/login" />;
+  } else if (validateTokenIsSuccess || isAuthenticated) {
+    return <Outlet />;
   }
 
-  // If token is validated successfully or user is authenticated, show the protected route
-  return <Outlet />;
+  // Default case if no other conditions are met
+  return null;
 };
 
 export default PrivateRoutes;
