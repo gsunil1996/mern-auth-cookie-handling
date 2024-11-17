@@ -20,6 +20,7 @@ const Home = () => {
     <div>
       <h1>Home</h1>
       <button onClick={handleLogout}>Logout</button>
+      <button onClick={() => navigate("/login")}>login</button>
     </div>
   )
 }

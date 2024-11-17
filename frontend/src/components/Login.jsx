@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginAction, resetLogin } from "../redux/features/authSlice";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const Login = () => {
       dispatch(resetLogin())
       setUsername("")
       setPassword("")
-      navigate("/");
+      navigate("/")
     } catch (error) {
       alert(error)
       dispatch(resetLogin())

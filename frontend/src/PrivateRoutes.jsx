@@ -16,10 +16,10 @@ const PrivateRoutes = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !validateTokenIsLoading) {
       dispatch(validateToken());
     }
-  }, []);
+  }, [isAuthenticated, validateTokenIsLoading, dispatch]);
 
   if (validateTokenIsLoading) {
     return (
