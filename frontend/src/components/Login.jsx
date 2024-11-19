@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginAction, resetLogin } from "../redux/features/authSlice";
+import { loginAction, resetLogin, resetValidateToken } from "../redux/features/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -14,6 +14,7 @@ const Login = () => {
     try {
       await dispatch(loginAction({ username, password })).unwrap();
       dispatch(resetLogin())
+      dispatch(resetValidateToken())
       setUsername("")
       setPassword("")
       navigate("/")
@@ -34,6 +35,8 @@ const Login = () => {
         <input type="text" required value={password} onChange={(e) => setPassword(e.target.value)} />
         <br />
         <button>Login</button>
+        <br />
+        <button onClick={() => navigate("/")}>Home</button>
       </form>
     </div>
   )
