@@ -6,12 +6,23 @@ import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import connectToMongoDB from "./db/connectToMongoDB.js";
+import helmet from "helmet";
 import cookieSession from "cookie-session";
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+
+// Set CSP using helmet
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'none'"],
+      scriptSrc: ["'self'", "https://vercel.live"],
+    },
+  })
+);
 
 // Middleware setup
 app.use(
