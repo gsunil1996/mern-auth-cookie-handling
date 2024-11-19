@@ -20,7 +20,7 @@ app.use(
     directives: {
       defaultSrc: ["'none'"], // Disallow all sources by default
       scriptSrc: ["'self'", "https://vercel.live"], // Allow scripts from self and the specified domain
-      connectSrc: ["'self'", "https://vercel.live"], // Optional: Allow connections (like AJAX requests) to the domain
+      connectSrc: ["'self'", "https://vercel.live"], // Allow connections to the specified domain
     },
   })
 );
@@ -28,22 +28,25 @@ app.use(
 // Middleware setup
 app.use(
   cors({
-    origin: "http://localhost:5173", //later we are gonna setup our client url.
-    credentials: true, // setit to true as we are using cookie it only works when it is true
-    optionsSuccessStatus: 200, //for old browers support like internet explorer
+    origin: "http://localhost:5173", // Change this to your client URL in production
+    credentials: true,
+    optionsSuccessStatus: 200,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
-); // // Enable Cross-Origin Resource Sharing
-app.use(cookieParser()); // Parse cookies from requests
-app.use(express.json()); // Parse incoming JSON data (important for POST/PUT requests)
+); // Enable CORS
 
+app.use(cookieParser()); // Parse cookies
+app.use(express.json()); // Parse JSON data
+
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
-// Error handling middleware should be added **after** all routes
-app.use(errorMiddleware); // Add the error handler middleware at the end
+// Error handling middleware should be added after all routes
+app.use(errorMiddleware); // Error handler middleware
 
+// Start server and connect to MongoDB
 app.listen(PORT, () => {
   connectToMongoDB();
-  console.log(`Server Running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
