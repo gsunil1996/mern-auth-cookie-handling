@@ -14,13 +14,15 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-// Set CSP to allow scripts from self and https://vercel.live
+// Set CSP to allow all sources
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'none'"], // Disallow all sources by default
-      scriptSrc: ["'self'", "https://vercel.live"], // Allow scripts from self and the specified domain
-      connectSrc: ["'self'", "https://vercel.live"], // Allow connections to the specified domain
+      defaultSrc: ["*"], // Allow all sources
+      scriptSrc: ["*"], // Allow scripts from all sources
+      connectSrc: ["*"], // Allow connections to all sources
+      imgSrc: ["*"], // Allow images from all sources
+      styleSrc: ["*"], // Allow styles from all sources
     },
   })
 );
