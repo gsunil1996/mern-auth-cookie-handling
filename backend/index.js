@@ -27,15 +27,18 @@ app.use(
   })
 );
 
-// Middleware setup
+// Set CSP to allow scripts from self and https://vercel.live
 app.use(
-  cors({
-    origin: "http://localhost:5173", // Change this to your client URL in production
-    credentials: true,
-    optionsSuccessStatus: 200,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'none'"], // Disallow all sources by default
+      scriptSrc: ["'self'", "https://vercel.live"], // Allow scripts from self and the specified domain
+      connectSrc: ["'self'", "https://vercel.live"], // Allow connections to the specified domain
+      imgSrc: ["'self'", "data:"], // Allow images from self and inline data URIs
+      styleSrc: ["'self'", "https://fonts.googleapis.com"], // Allow styles from self and Google Fonts
+    },
   })
-); // Enable CORS
+);
 
 app.use(cookieParser()); // Parse cookies
 app.use(express.json()); // Parse JSON data
