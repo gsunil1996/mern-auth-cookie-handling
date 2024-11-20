@@ -6,39 +6,21 @@ import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import connectToMongoDB from "./db/connectToMongoDB.js";
-import helmet from "helmet";
-import cookieSession from "cookie-session";
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-// Set CSP to allow all sources
+// Middleware setup
 app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["*"], // Allow all sources
-      scriptSrc: ["*"], // Allow scripts from all sources
-      connectSrc: ["*"], // Allow connections to all sources
-      imgSrc: ["*"], // Allow images from all sources
-      styleSrc: ["*"], // Allow styles from all sources
-    },
+  cors({
+    origin: ["http://localhost:5173"], //later we are gonna setup our client url.
+    credentials: true, // setit to true as we are using cookie it only works when it is true
+    optionsSuccessStatus: 200, //for old browers support like internet explorer
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
-);
-
-// Set CSP to allow scripts from self and https://vercel.live
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'none'"], // Disallow all sources by default
-      scriptSrc: ["'self'", "https://vercel.live"], // Allow scripts from self and the specified domain
-      connectSrc: ["'self'", "https://vercel.live"], // Allow connections to the specified domain
-      imgSrc: ["'self'", "data:"], // Allow images from self and inline data URIs
-      styleSrc: ["'self'", "https://fonts.googleapis.com"], // Allow styles from self and Google Fonts
-    },
-  })
-);
+); // Enable Cross-Origin Resource Sharing
 
 app.use(cookieParser()); // Parse cookies
 app.use(express.json()); // Parse JSON data

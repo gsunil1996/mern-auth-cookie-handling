@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
-import ErrorHandler from "../utils/errorHandler.js";
+import createErrorHandler from "../utils/errorHandler.js";
 
 export const signup = async (req, res) => {
   try {
@@ -65,7 +65,7 @@ export const login = async (req, res, next) => {
 
     if (!user || !isPasswordCorrect) {
       // return res.status(400).json({ error: "Invalid username or password" });
-      return next(new ErrorHandler("Invalid username or password", 400));
+      return next(createErrorHandler("Invalid username or password", 400));
     }
 
     generateTokenAndSetCookie(user._id, res);
